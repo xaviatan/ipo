@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¿Dónde buscar trabajo? — 12 fuentes de empleo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --radius-card: 36px;
+      --radius-inner: 22px;
+      --radius-pill: 99px;
+      --shadow-soft: 0 8px 40px rgba(180,140,200,0.13);
+      --transition: 0.42s cubic-bezier(.4,0,.2,1);
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #fdf6ff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem 1rem;
+    }
+
+    /* ── Presentation wrapper ── */
+    #presentation {
+      width: 100%;
+      max-width: 780px;
+      position: relative;
+    }
+
+    /* ── Progress bar ── */
+    .progress-track {
+      height: 8px;
+      background: #eddff8;
+      border-radius: var(--radius-pill);
+      margin-bottom: 1.2rem;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #f5b8d0, #c89ee8);
+      border-radius: var(--radius-pill);
+      transition: width var(--transition);
+    }
+
+    /* ── Slide base ── */
+    .slide {
+      display: none;
+      border-radius: var(--radius-card);
+      padding: 2.8rem 3rem;
+      min-height: 480px;
+      box-shadow: var(--shadow-soft);
+      animation: slideIn var(--transition) forwards;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .slide.active { display: flex; }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(14px) scale(0.99); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ── Cover slide ── */
+    .cover {
+      background: linear-gradient(145deg, #fde8f5 0%, #ecdcf8 50%, #dceeff 100%);
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 0;
+    }
+    .cover-blob {
+      font-size: 4.5rem;
+      margin-bottom: 1rem;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .cover h1 {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: #8040b0;
+      line-height: 1.15;
+      margin-bottom: 0.6rem;
+    }
+    .cover-sub {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #b080d0;
+      margin-bottom: 1.6rem;
+    }
+    .cover-img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: var(--radius-inner);
+      margin-top: 0.5rem;
+    }
+
+    /* ── Content slides ── */
+    .slide-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.2rem;
+    }
+    .slide-emoji {
+      font-size: 2.8rem;
+      flex-shrink: 0;
+    }
+    .slide-title {
+      font-size: 1.7rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+    .slide-img {
+      width: 100%;
+      height: 148px;
+      object-fit: cover;
+      border-radius: var(--radius-inner);
+    }
+    .items {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .items li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+    .items li::before {
+      content: '';
+      display: inline-block;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .tip {
+      border-radius: var(--radius-inner);
+      padding: 0.85rem 1.1rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      line-height: 1.5;
+      margin-top: auto;
+    }
+
+    /* ── Per-slide color themes ── */
+    .s1  { background: #fff5f0; } .s1  .slide-title { color: #c04020; } .s1  .items li::before { background: #f4a07a; } .s1  .tip { background: #fde6d8; color: #a03010; }
+    .s2  { background: #f0f5ff; } .s2  .slide-title { color: #3050b0; } .s2  .items li::before { background: #8ab0e8; } .s2  .tip { background: #dce8fc; color: #1e3e9a; }
+    .s3  { background: #f0fcf5; } .s3  .slide-title { color: #20784a; } .s3  .items li::before { background: #70c898; } .s3  .tip { background: #d5f5e4; color: #136038; }
+    .s4  { background: #f8f0ff; } .s4  .slide-title { color: #6030b0; } .s4  .items li::before { background: #b07ade; } .s4  .tip { background: #ecddf8; color: #4a2498; }
+    .s5  { background: #fffaf0; } .s5  .slide-title { color: #a06818; } .s5  .items li::before { background: #e0b060; } .s5  .tip { background: #faecd8; color: #8a5210; }
+    .s6  { background: #fff0f8; } .s6  .slide-title { color: #b02868; } .s6  .items li::before { background: #e080b0; } .s6  .tip { background: #f8dbee; color: #901858; }
+    .s7  { background: #f0fffe; } .s7  .slide-title { color: #107070; } .s7  .items li::before { background: #50c0c0; } .s7  .tip { background: #cff4f4; color: #086060; }
+    .s8  { background: #fff8f0; } .s8  .slide-title { color: #a05818; } .s8  .items li::before { background: #e0a060; } .s8  .tip { background: #faeadb; color: #8a4010; }
+    .s9  { background: #f5f0ff; } .s9  .slide-title { color: #5828b0; } .s9  .items li::before { background: #a070d8; } .s9  .tip { background: #e6dcf8; color: #4018a0; }
+    .s10 { background: #f0fff5; } .s10 .slide-title { color: #1e7840; } .s10 .items li::before { background: #58c078; } .s10 .tip { background: #d4f5e0; color: #106030; }
+    .s11 { background: #fff0f0; } .s11 .slide-title { color: #982828; } .s11 .items li::before { background: #e07878; } .s11 .tip { background: #f8d8d8; color: #801818; }
+    .s12 { background: #f5fff0; } .s12 .slide-title { color: #307820; } .s12 .items li::before { background: #7ac050; } .s12 .tip { background: #dcf5cc; color: #206010; }
+
+    /* ── Navigation ── */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-top: 1.4rem;
+    }
+    .btn {
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 0.7rem 1.8rem;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+      box-shadow: 0 4px 18px rgba(180,140,200,0.18);
+    }
+    .btn:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 6px 24px rgba(180,140,200,0.28); }
+    .btn:active:not(:disabled) { transform: scale(0.97); }
+    .btn:disabled { opacity: 0.35; cursor: default; box-shadow: none; }
+    .btn-prev { background: #ecddf8; color: #6030a0; }
+    .btn-next { background: #fde0ee; color: #b02868; }
+    .slide-counter {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #b090c8;
+      min-width: 64px;
+      text-align: center;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 560px) {
+      .slide { padding: 1.8rem 1.5rem; min-height: 400px; }
+      .cover h1 { font-size: 2rem; }
+      .slide-title { font-size: 1.35rem; }
+      .slide-emoji { font-size: 2.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="presentation">
+  <div class="progress-track">
+    <div class="progress-fill" id="prog" style="width: 7.69%"></div>
+  </div>
+
+  <!-- Portada -->
+  <div class="slide cover active">
+    <div class="cover-blob">🌸</div>
+    <h1>¿Dónde buscar trabajo?</h1>
+    <p class="cover-sub">12 fuentes de empleo que debes conocer</p>
+    <img class="cover-img"
+      src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=780&q=80&fit=crop"
+      alt="espacio de trabajo acogedor">
+  </div>
+
+  <!-- 1. Portales online -->
+  <div class="slide s1">
+    <div class="slide-header">
+      <span class="slide-emoji">🌐</span>
+      <h2 class="slide-title">1. Portales de empleo online</h2>
+    </div>
+    <img class="slide-img"
+      src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=780&q=80&fit=crop"
+      alt="persona buscando trabajo online">
+    <ul class="items">
+      <li><a href="https://www.infojobs.net">InfoJobs</a></li>
+      <li><a href="https://www.linkedin.com/feed/">LinkedIn</a></li>
+      <li><a href="https://www.indeed.com">Indeed</a></li>
+      <li><a href="https://www.glassdoor.es/index.htm?countryRedirect=true">Glassdoor</a></li>
+      <li><a href="https://www.infoempleo.com">Infoempleo</a></li>
+    </ul>
+    <div class="tip">👉 Aquí puedes buscar ofertas, subir tu CV y aplicar directamente desde la plataforma.</div>
+  </div>
+
+  <!-- 2. Empresas directamente -->
+  <div class="slide s2">
+    <div class="slide-header">
+      <span class="slide-emoji">🏢</span>
+      <h2 class="slide-title">2. Empresas directamente</h2>
+    </div>
+    <img class="slide-img"
+      src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=780&q=80&fit=crop"
+      alt="edificio de oficinas">
+    <ul class="items">
+      <li>Sección "Trabaja con nosotros"</li>
+      <li>Autocandidaturas</li>
+      <li>Portales propios de empresa</li>
+    </ul>
+    <div class="tip">💡 Empresas como Inditex o Telefónica tienen sus propios portales de empleo.</div>
+  </div>
+
+  <!-- 3. Networking -->
+  <div class="slide s3">
+    <div class="slide-header">
+      <span class="slide-emoji">👥</span>
+      <h2 class="slide-title">3. Contactos (networking)</h2>
+    </div>
+    <img class="slide-img"
+      src="https://images.unsplash.com/photo-1543269865-cbf427effbad?w=780&q=80&fit=crop"
+      alt="personas conectando en un evento">
+    <ul class="items">
+      <li>Amigos y familia</li>
+      <li>Profesores</li>
+      <li>Compañeros de estudios o trabajo</li>
+    </ul>
+    <div class="tip">👉 Uno de los métodos MÁS efectivos — muchas ofertas nunca se publican y se cubren por recomendaciones.</div>
+  </div>
+
+  <!-- 4. Servicios públicos -->
+  <div class="slide s4">
+    <div class="slide-header">
+      <span class="slide-emoji">🏛️</span>
+      <h2 class="slide-title">4. Servicios públicos de empleo</h2>
+    </div>
+    <img class="slide-img"
+      src="https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=780&q=80&fit=crop"
+      alt="edificio institucional">
+    <ul class="items">
+      <li><a href="https://www.sepe.es/HomeSepe/">SEPE (estatal)</a></li>
+      <li><a href="https://serveiocupacio.gencat.cat/es/inici/">SOC (Cataluña)</a></li>
+      <li>Servicios autonómicos</li>
+    </ul>
+    <div class="tip">👉 Ofrecen ofertas de empleo, cursos de formación y orientación laboral gratuita.</div>
+  </div>
+
+  <!-- 5. ETT -->
+  <div class="slide s5">
+    <div class="slide-header">
+      <span class="slide-emoji">🧑‍💼</span>
+      <h2 class="slide-title">5. Empresas de trabajo temporal (ETT)</h2>
+    </div>
+    <img class="slide-img"
+      src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=780&q=80&fit=crop"
+      alt="reunión de trabajo en oficina">
+    <ul class="items">
+      <li>Adecco</li>
+      <li>Randstad</li>
+      <li>Manpower</li>
+    </ul>
+    <div class="tip">👉 Ideal para primer empleo y trabajos temporales mientras buscas algo más estable.</div>
+  </div>
+
+  <!-- 6. Redes sociales -->
+  <div class="slide s6">
+    <div class="slide-header">
+      <span class="slide-emoji">📱</span>
+      <h2 class="slide-title">6. Redes sociales</h2>
+    </div>
+    <img class="slide-img"
+      src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=780&q=80&fit=crop"
+      alt="redes sociales en móvil">
+    <ul class="items">
+      <li>Instagram</li>
+      <li>Twitter (X)</li>
+      <li>TikTok</li>
+      <li>LinkedIn</li>
+    </ul>
+    <div class="tip">👉 No solo LinkedIn — muchas ofertas se anuncian en stories o publicaciones en otras redes.</div>
+  </div>
+
+  <!-- 7. Centros educativos -->
+  <div class="slide s7">
+    <div class="slide-header">
+      <span class="slide-emoji">🎓</span>
+      <h2 class="slide-title">7. Centros educativos</h2>
+    </div>
+    <img class="slide-img"
+      src="https://colegiosjesusmaria.com/wp-content/uploads/2024/03/foto-cole-web-scaled.jpg"
+    <ul class="items">
+      <li>Bolsa de empleo del centro</li>
+      <li>Prácticas en empresa</li>
+      <li>Convenios con empresas</li>
+    </ul>
+    <div class="tip">💡 Clave en FP, universidad o máster — ¡tu propio centro puede abrirte puertas directamente!</div>
+  </div>
+
+  <!-- 8. Ferias de empleo -->
+  <div class="slide s8">
+    <div class="slide-header">
+      <span class="slide-emoji">📄</span>
+      <h2 class="slide-title">8. Ferias de empleo</h2>
+    </div>
+    <img class="slide-img"
+      src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=780&q=80&fit=crop"
+      alt="feria de empleo con stands">
+    <ul class="items">
+      <li>Ferias universitarias</li>
+      <li>Eventos tecnológicos</li>
+      <li>Job fairs presenciales</li>
+    </ul>
+    <div class="tip">👉 Puedes entregar tu CV en persona, hacer contactos y destacar frente a otros candidatos.</div>
+  </div>
+
+  <!-- 9. Headhunters -->
+  <div class="slide s9">
+    <div class="slide-header">
+      <span class="slide-emoji">🧾</span>
+      <h2 class="slide-title">9. Consultoras y headhunters</h2>
+    </div>
+    <img class="slide-img"
+      src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=780&q=80&fit=crop"
+      alt="reunión profesional de negocios">
+    <ul class="items">
+      <li>Buscan perfiles muy específicos</li>
+      <li>Desarrollo full-stack y perfiles tech</li>
+      <li>Puestos de alta cualificación</li>
+    </ul>
+    <div class="tip">👉 Más común para perfiles técnicos — ¡ellos te buscan a ti, no al revés!</div>
+  </div>
+
+  <!-- 10. Tradicional -->
+  <div class="slide s10">
+    <div class="slide-header">
+      <span class="slide-emoji">🏪</span>
+      <h2 class="slide-title">10. Método tradicional</h2>
+    </div>
+    <img class="slide-img"
+      src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=780&q=80&fit=crop"
+      alt="calle comercial con tiendas">
+    <ul class="items">
+      <li>Dejar CV en mano</li>
+      <li>Tiendas, restaurantes, comercios</li>
+      <li>Carteles de "Se busca personal"</li>
+    </ul>
+    <div class="tip">👉 Aún funciona muy bien en comercio local, hostelería y trabajos de proximidad.</div>
+  </div>
+
+  <!-- 11. Freelance -->
+  <div class="slide s11">
+    <div class="slide-header">
+      <span class="slide-emoji">💻</span>
+      <h2 class="slide-title">11. Plataformas freelance</h2>
+    </div>
+    <img class="slide-img"
+      src="https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=780&q=80&fit=crop"
+      alt="freelancer trabajando desde casa">
+    <ul class="items">
+      <li>Upwork</li>
+      <li>Fiverr</li>
+      <li>Malt</li>
+    </ul>
+    <div class="tip">👉 Ideal para programación, diseño y marketing digital sin empleo fijo tradicional.</div>
+  </div>
+
+  <!-- 12. Crear oportunidad -->
+  <div class="slide s12">
+    <div class="slide-header">
+      <span class="slide-emoji">🚀</span>
+      <h2 class="slide-title">12. Crear tu propia oportunidad</h2>
+    </div>
+    <img class="slide-img"
+      src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=780&q=80&fit=crop"
+      alt="emprendedora trabajando en su proyecto">
+    <ul class="items">
+      <li>Emprender tu propio negocio</li>
+      <li>Crear proyectos propios</li>
+      <li>Portfolio (MUY importante para devs)</li>
+    </ul>
+    <div class="tip">👉 No todo es "buscar trabajo" — ¡también puedes crearlo tú misma!</div>
+  </div>
+
+  <!-- Nav -->
+  <div class="nav">
+    <button class="btn btn-prev" id="prev" onclick="go(-1)" disabled>← Anterior</button>
+    <span class="slide-counter" id="counter">1 / 13</span>
+    <button class="btn btn-next" id="next" onclick="go(1)">Siguiente →</button>
+  </div>
+</div>
+
+<script>
+  var cur = 0, total = 13;
+  var slides = document.querySelectorAll('.slide');
+
+  function go(dir) {
+    slides[cur].classList.remove('active');
+    cur = Math.max(0, Math.min(total - 1, cur + dir));
+    slides[cur].classList.add('active');
+    document.getElementById('counter').textContent = (cur + 1) + ' / ' + total;
+    document.getElementById('prev').disabled = cur === 0;
+    document.getElementById('next').disabled = cur === total - 1;
+    document.getElementById('prog').style.width = ((cur + 1) / total * 100) + '%';
+    // Update URL hash to reflect current slide
+    window.location.hash = 'slide' + (cur + 1);
+  }
+
+  // Function to go to a specific slide based on hash
+  function goToSlide(slideNum) {
+    if (slideNum >= 1 && slideNum <= total) {
+      slides[cur].classList.remove('active');
+      cur = slideNum - 1;
+      slides[cur].classList.add('active');
+      document.getElementById('counter').textContent = (cur + 1) + ' / ' + total;
+      document.getElementById('prev').disabled = cur === 0;
+      document.getElementById('next').disabled = cur === total - 1;
+      document.getElementById('prog').style.width = ((cur + 1) / total * 100) + '%';
+    }
+  }
+
+  // On page load, check for hash and go to that slide
+  window.addEventListener('load', function() {
+    var hash = window.location.hash;
+    if (hash.startsWith('#slide')) {
+      var slideNum = parseInt(hash.substring(6));
+      goToSlide(slideNum);
+    }
+  });
+
+  // Listen for hash changes (back/forward navigation)
+  window.addEventListener('hashchange', function() {
+    var hash = window.location.hash;
+    if (hash.startsWith('#slide')) {
+      var slideNum = parseInt(hash.substring(6));
+      goToSlide(slideNum);
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') go(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   go(-1);
+  });
+</script>
+
+</body>
+</html>
